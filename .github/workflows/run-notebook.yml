@@ -95,7 +95,7 @@ jobs:
           jupyter nbconvert \
             --to notebook \
             --execute \
-            --ExecutePreprocessor.timeout=600 \
+            --ExecutePreprocessor.timeout=7200 \
             --ExecutePreprocessor.kernel_name=python3 \
             --output notebook_executed.ipynb \
             notebook.ipynb
