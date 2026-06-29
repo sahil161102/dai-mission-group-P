@@ -1,9 +1,6 @@
-# [Project Title]
+# Causal & Predictive Analysis of Heat Stress on Punjab Grid Electricity Demand
 
-![Notebook CI](https://github.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>/actions/workflows/run-notebook.yml/badge.svg)
-
-> **Before submitting:** replace `<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>` in the badge URL above
-> with your actual GitHub owner and repository name.
+![Notebook CI](https://github.com/sahil161102/dai-mission-group-P/actions/workflows/run-notebook.yml/badge.svg)
 
 ---
 
@@ -11,9 +8,9 @@
 
 | Name | Role |
 |------|------|
-| Firstname Lastname | Lead / Causal Inference |
-| Firstname Lastname | Supervised Learning |
-| Firstname Lastname *(optional)* | Unsupervised / Generative |
+| Rushikumar Subhashbhai Javiya | Causal Inference |
+| Paritosh Sharma | Supervised Learning |
+| Sahil Sahil | Lead / Generative |
 
 > No student IDs in this file. Submit IDs separately via the course system (Moodle).
 
@@ -21,7 +18,7 @@
 
 ## Research Question
 
-*One sentence: what causal or predictive question are you answering, and with what data?*
+What is the marginal causal effect of continuous meteorological heat stress (measured by the Temperature-Humidity Index, THI) on hourly electricity demand (in Megawatts) within the Punjab power grid — when controlling for seasonal, temporal, and environmental confounders — and how robustly can supervised and generative neural architectures predict and simulate demand profile trajectories under extreme heat scenarios?
 
 ---
 
@@ -29,9 +26,9 @@
 
 | Block | Method(s) |
 |-------|-----------|
-| Causal Inference | DoWhy — [backdoor / IV / propensity score] |
-| Supervised Learning | [e.g., Ridge regression, Random Forest, …] |
-| Unsupervised / Generative | [e.g., K-Means, VAE, Hierarchical clustering, …] |
+| Causal Inference | DoWhy — backdoor adjustment with continuous THI treatment; linear & quadratic structural estimands; random-common-cause refutation |
+| Supervised Learning | Ridge Regression, Lasso, Random Forest Regressor, MLP Regressor |
+| Unsupervised / Generative | Conditional Wasserstein GAN with Gradient Penalty (cWGAN-GP) for 24-hour demand profile generation |
 
 ---
 
@@ -39,11 +36,28 @@
 
 | Dataset | Source / URL | Access method |
 |---------|-------------|---------------|
-| | | local file / API / sklearn built-in / runtime download / Sciebo link |
+| State-Level Electricity Load Curves — Punjab, 2016–2025 (87,672 hourly observations) | [NITI Aayog ICED Load Curve Portal](https://iced.niti.gov.in/energy/electricity/distribution/national-level-consumption/load-curve) | local CSV (`data/Yearly_Demand_Profile_2016-2025.csv`) |
+| Multi-Station Meteorological Surface Parameters — 23 Punjab Districts, 2016–2025 | NASA POWER API (district-level coordinates for 23 Punjab districts) | local CSV (`data/2022/`, `data/2024/`) |
 
 > **Data size rule:** files < 100 MB may be committed directly. Files ≥ 100 MB must either
 > be downloaded programmatically in the notebook (API/URL) or linked via a Sciebo share
 > placed in this README — do NOT push large files to GitHub.
+
+---
+
+## Key Variables
+
+| Variable | Type | Role | Description |
+|----------|------|------|-------------|
+| `datetime` | Temporal Index | Identifier | Timestamp (YYYY-MM-DD HH:00:00) |
+| `demand_mw` | Continuous Float | Target (Outcome) | Total Punjab state grid consumption in MW |
+| `thi` | Continuous Float | Treatment | Temperature-Humidity Index: THI = T_F − (0.55 − 0.0055·RH)·(T_F − 58) |
+| `temp_c` | Continuous Float | Upstream Cause | Ambient temperature (°C), 23-station average |
+| `rh_pct` | Continuous Float | Upstream Cause | Relative humidity (%), 23-station average |
+| `precip_mm` | Continuous Float | Covariate | Hourly precipitation (mm) |
+| `cloud_pct` | Continuous Float | Covariate / Confounder | Cloud cover (%) |
+| `wind_ms` | Continuous Float | Covariate | Wind speed (m/s) |
+| `hour` / `dow` / `month` / `year` | Integer | Fixed Effects | Calendar decomposition for diurnal, weekly, seasonal, and annual patterns |
 
 ---
 
@@ -60,9 +74,8 @@ Push to `main`. The CI workflow executes `notebook.ipynb` automatically.
 ### Option B — Local environment
 
 ```bash
-# Clone your repo (not this template)
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>.git
-cd <YOUR_REPO_NAME>
+git clone https://github.com/sahil161102/dai-mission-group-P.git
+cd dai-mission-group-P
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
@@ -108,30 +121,15 @@ jupyter lab notebook.ipynb
 
 ---
 
-## Submission Checklist
-
-| Item | Status |
-|------|--------|
-| Repo named `dai-mission-group-X` (replace X with your group letter) | [ ] |
-| README updated (title, team, badge URL, research question, data sources) | [ ] |
-| Work Plan filled in (`notebook.ipynb` — team member → section mapping) | [ ] |
-| All rubric sections complete (§1–§5) | [ ] |
-| Notebook submitted in **fully executed state** (all cell outputs visible) | [ ] |
-| Notebook re-executes cleanly (CI badge green) | [ ] |
-| `presentation.pdf` replaced with actual PDF (PDF only, no PPTX) | [ ] |
-| Large data files (≥ 100 MB) not committed — downloaded or Sciebo-linked instead | [ ] |
-| Custom `.py` modules included (if any) | [ ] |
-| Private repo: `pnposch` + `kiraschoenhuette` added as collaborators | [ ] if private |
-| Repository link submitted to Moodle by **June 30, 12:00 noon** | [ ] |
-
----
-
 ## Repository Structure
 
 ```
 .
 ├── .github/workflows/run-notebook.yml   # CI: validates and executes notebook on every push
 ├── data/                                # local data files (see data/README.md)
+│   ├── Yearly_Demand_Profile_2016-2025.csv
+│   ├── 2022/                            # NASA POWER weather CSVs for 23 Punjab districts
+│   └── 2024/
 ├── notebook.ipynb                       # main deliverable — proposal + final submission (submit fully executed)
 ├── presentation.pdf                     # slide deck — PDF only, max 5 content slides
 ├── README.md                            # this file

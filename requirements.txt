@@ -12,6 +12,15 @@ dowhy>=0.11.1
 # Graph drawing (DAG visualisation without graphviz system dependency)
 networkx>=3.3
 
+# Statistical modelling
+statsmodels>=0.14.0
+
+# Interactive visualisation
+plotly>=5.20.0
+
+# Generative modelling (WGAN-GP)
+torch>=2.2.0
+
 # Notebook execution
 jupyter>=1.1.0
 nbconvert>=7.16.0
