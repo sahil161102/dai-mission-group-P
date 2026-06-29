@@ -1,4 +1,4 @@
-# Causal & Predictive Analysis of Heat Stress on Punjab Grid Electricity Demand
+# Quantifying the Climate-Grid Nexus: Causal & Predictive Analysis of Heat Stress on Punjab Grid Electricity Demand
 
 ![Notebook CI](https://github.com/sahil161102/dai-mission-group-P/actions/workflows/run-notebook.yml/badge.svg)
 
