@@ -128,8 +128,11 @@ jupyter lab notebook.ipynb
 ├── .github/workflows/run-notebook.yml   # CI: validates and executes notebook on every push
 ├── data/                                # local data files (see data/README.md)
 │   ├── Yearly_Demand_Profile_2016-2025.csv
-│   ├── 2022/                            # NASA POWER weather CSVs for 23 Punjab districts
-│   └── 2024/
+│   ├── 2016/
+.
+.                                        # NASA POWER weather CSVs for 23 Punjab districts
+│   ├── 2024/
+│   └── 2025/
 ├── notebook.ipynb                       # main deliverable — proposal + final submission (submit fully executed)
 ├── presentation.pdf                     # slide deck — PDF only, max 5 content slides
 ├── README.md                            # this file
